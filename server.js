@@ -1,5 +1,6 @@
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 const path = require("path");
-
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 console.log("loaded mongo_uri:", process.env.MONGO_URI);
 const express = require("express");
@@ -18,7 +19,8 @@ const io = new Server(server);
 app.set("io", io);
 
 // Database Connection
-const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/dashway";
+MONGO_URI =
+  "mongodb://wemzycool_db_user:omnipd2026@cluster0-shard-00-00.tpy7od1.mongodb.net:27017,cluster0-shard-00-01.tpy7od1.mongodb.net:27017,cluster0-shard-00-02.tpy7od1.mongodb.net:27017/dashway_db?ssl=true&replicaSet=atlas-13p5o3-shard-0&authSource=admin&retryWrites=true&w=majority";
 
 mongoose
   .connect(MONGO_URI)
