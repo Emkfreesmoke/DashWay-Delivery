@@ -1,0 +1,524 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main class="admin-page">
+
+  <!-- ===============================
+       ADMIN HEADER
+  ================================ -->
+  <section class="admin-page-header">
+    <div class="container">
+
+      <div class="admin-header-content reveal-up">
+
+        <div>
+          <span class="section-subtitle">DASHWAY ADMIN</span>
+
+          <h1>Operations Dashboard</h1>
+
+          <p>
+            Manage shipments, update delivery progress and keep your
+            logistics operations organized.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ===============================
+       ADMIN ACTIONS
+  ================================ -->
+  <section class="admin-dashboard-section section-padding">
+
+    <div class="container">
+
+      <div class="admin-actions-grid reveal-up">
+
+        <!-- CREATE SHIPMENT -->
+        <a
+          href="/admin/create-shipment"
+          class="admin-action-card admin-action-primary"
+        >
+          <div class="admin-action-icon">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+
+          <div>
+            <h3>Create Shipment</h3>
+
+            <p>
+              Create a new shipment and generate a tracking number.
+            </p>
+          </div>
+
+          <i class="fa-solid fa-arrow-right admin-action-arrow"></i>
+        </a>
+
+
+        <!-- UPDATE SHIPMENT -->
+        <a
+          href="#update-shipment"
+          class="admin-action-card"
+        >
+          <div class="admin-action-icon">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+
+          <div>
+            <h3>Update Shipment</h3>
+
+            <p>
+              Update the current location and delivery status.
+            </p>
+          </div>
+
+          <i class="fa-solid fa-arrow-right admin-action-arrow"></i>
+        </a>
+
+
+        <!-- ORDER HISTORY -->
+        <a
+          href="/admin/history"
+          class="admin-action-card"
+        >
+          <div class="admin-action-icon">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+          </div>
+
+          <div>
+            <h3>Order History</h3>
+
+            <p>
+              View previously created shipments and their details.
+            </p>
+          </div>
+
+          <i class="fa-solid fa-arrow-right admin-action-arrow"></i>
+        </a>
+
+      </div>
+
+
+      <!-- ===============================
+           UPDATE SHIPMENT
+      ================================ -->
+      <section
+        id="update-shipment"
+        class="admin-update-section reveal-up"
+      >
+
+        <div class="admin-section-heading">
+
+          <div>
+            <span class="section-subtitle">
+              SHIPMENT MANAGEMENT
+            </span>
+
+            <h2>Update Shipment</h2>
+
+            <p>
+              Select a shipment and update its current delivery information.
+            </p>
+          </div>
+
+        </div>
+
+
+        <!-- SELECT SHIPMENT -->
+
+        <div class="admin-form-card">
+
+          <div class="admin-form-heading">
+
+            <span class="section-subtitle">
+              SELECT SHIPMENT
+            </span>
+
+            <h2>Choose Shipment</h2>
+
+            <p>
+              Select the shipment you want to update.
+            </p>
+
+          </div>
+
+
+          <form
+            method="GET"
+            action="/admin"
+          >
+
+            <div class="admin-form-group">
+
+              <label for="shipmentSelect">
+                Shipment
+              </label>
+
+              <select
+                id="shipmentSelect"
+                name="shipmentId"
+                onchange="this.form.submit()"
+                required
+              >
+
+                <option value="">
+                  -- Select Shipment --
+                </option>
+
+                <% shipments.forEach((shipment) => { %>
+
+                  <option
+                    value="<%= shipment._id %>"
+                    <%= selectedShipment &&
+                        selectedShipment._id.toString() === shipment._id.toString()
+                        ? "selected"
+                        : "" %>
+                  >
+
+                    <%= shipment.trackingNumber %>
+                    -
+                    <%= shipment.receiverName %>
+
+                  </option>
+
+                <% }) %>
+
+              </select>
+
+            </div>
+
+          </form>
+
+        </div>
+
+
+        <!-- ===============================
+             SELECTED SHIPMENT UPDATE FORM
+        ================================ -->
+
+        <% if (selectedShipment) { %>
+
+          <form
+            action="/admin/shipment/<%= selectedShipment._id %>/update"
+            method="POST"
+            class="admin-form-card reveal-up"
+          >
+
+            <div class="admin-form-heading">
+
+              <span class="section-subtitle">
+                SHIPMENT UPDATE
+              </span>
+
+              <h2>
+                <%= selectedShipment.trackingNumber %>
+              </h2>
+
+              <p>
+                Update the current progress of this shipment.
+              </p>
+
+            </div>
+
+
+            <!-- CURRENT LOCATION -->
+
+            <div class="admin-form-section-title">
+
+              <i class="fa-solid fa-location-dot"></i>
+
+              <h3>Current Location</h3>
+
+            </div>
+
+            <div class="admin-form-group">
+
+              <label for="currentLocation">
+                Current Location
+              </label>
+
+              <input
+                type="text"
+                id="currentLocation"
+                name="currentLocation"
+                value="<%= selectedShipment.currentLocation || '' %>"
+                placeholder="e.g. Accra, Ghana"
+                required
+              />
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="admin-form-section-title">
+
+              <i class="fa-solid fa-truck-fast"></i>
+
+              <h3>Shipment Status</h3>
+
+            </div>
+
+            <div class="admin-form-group">
+  <label for="status">Status</label>
+
+  <select id="status" name="status" required>
+    <option value="Pending" <%= selectedShipment.status === "Pending" ? "selected" : "" %>>
+      Pending
+    </option>
+
+    <option value="Picked Up" <%= selectedShipment.status === "Picked Up" ? "selected" : "" %>>
+      Picked Up
+    </option>
+
+    <option value="In Transit" <%= selectedShipment.status === "In Transit" ? "selected" : "" %>>
+      In Transit
+    </option>
+
+    <option value="Arrives Airpot" <%= selectedShipment.status === "Arrives Airpot" ? "selected" : "" %>>
+      Arrives Airpot
+    </option>
+
+    <option value="Package departed" <%= selectedShipment.status === "Package departed" ? "selected" : "" %>>
+      Package departed
+    </option>
+
+    <option value="Arrived country of destination" <%= selectedShipment.status === "Arrived country of destination" ? "selected" : "" %>>
+      Arrived country of destination
+    </option>
+
+    <option value="Awaiting Custom Clearance" <%= selectedShipment.status === "Awaiting Custom Clearance" ? "selected" : "" %>>
+      Awaiting Custom Clearance
+    </option>
+
+    <option value="Custom Clearance" <%= selectedShipment.status === "Custom Clearance" ? "selected" : "" %>>
+      Custom Clearance
+    </option>
+
+    <option value="Out for Delivery" <%= selectedShipment.status === "Out for Delivery" ? "selected" : "" %>>
+      Out for Delivery
+    </option>
+
+    <option value="Delivered" <%= selectedShipment.status === "Delivered" ? "selected" : "" %>>
+      Delivered
+    </option>
+
+    <option value="Cancelled" <%= selectedShipment.status === "Cancelled" ? "selected" : "" %>>
+      Cancelled
+    </option>
+  </select>
+</div>
+
+
+            <!-- DESTINATION -->
+
+            <div class="admin-form-section-title">
+
+              <i class="fa-solid fa-route"></i>
+
+              <h3>Destination</h3>
+
+            </div>
+
+            <div class="admin-form-group">
+
+              <label for="destination">
+                Destination
+              </label>
+
+              <input
+                type="text"
+                id="destination"
+                name="destination"
+                value="<%= selectedShipment.destination || '' %>"
+                placeholder="e.g. London, United Kingdom"
+                required
+              />
+
+            </div>
+
+
+            <!-- ESTIMATED DELIVERY -->
+
+            <div class="admin-form-group">
+
+              <label for="estimatedDelivery">
+                Estimated Delivery
+              </label>
+
+              <input
+                type="date"
+                id="estimatedDelivery"
+                name="estimatedDelivery"
+                value="<%= selectedShipment.estimatedDelivery
+                  ? new Date(selectedShipment.estimatedDelivery).toISOString().split('T')[0]
+                  : '' %>"
+              />
+
+            </div>
+
+
+            <!-- BUTTON -->
+
+            <div class="admin-form-actions">
+
+              <a
+                href="/admin"
+                class="btn-outline"
+              >
+                Cancel
+              </a>
+
+              <button
+                type="submit"
+                class="btn-primary"
+              >
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                Update Shipment
+
+              </button>
+
+            </div>
+
+          </form>
+
+        <% } %>
+
+
+        <!-- ===============================
+             RECENT SHIPMENTS
+        ================================ -->
+
+        <div class="admin-section-heading reveal-up">
+
+          <div>
+            <span class="section-subtitle">
+              RECENT ACTIVITY
+            </span>
+
+            <h2>Recent Shipments</h2>
+          </div>
+
+        </div>
+
+
+        <div class="admin-table-wrapper reveal-up">
+
+          <% if (recentShipments.length === 0) { %>
+
+            <div class="admin-empty-state">
+
+              <i class="fa-solid fa-box-open"></i>
+
+              <h3>No shipments yet</h3>
+
+              <p>
+                Create your first shipment to get started.
+              </p>
+
+              <a
+                href="/admin/create-shipment"
+                class="btn-primary"
+              >
+                Create Shipment
+              </a>
+
+            </div>
+
+          <% } else { %>
+
+            <table class="admin-table">
+
+              <thead>
+
+                <tr>
+                  <th>Tracking</th>
+                  <th>Recipient</th>
+                  <th>Destination</th>
+                  <th>Service</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th></th>
+                </tr>
+
+              </thead>
+
+              <tbody>
+
+                <% recentShipments.forEach((shipment) => { %>
+
+                  <tr>
+
+                    <td>
+                      <strong class="tracking-code">
+                        <%= shipment.trackingNumber %>
+                      </strong>
+                    </td>
+
+                    <td>
+                      <%= shipment.receiverName %>
+                    </td>
+
+                    <td>
+                      <%= shipment.destination %>
+                    </td>
+
+                    <td>
+                      <%= shipment.shipmentType %>
+                    </td>
+
+                    <td>
+
+                      <span
+                        class="status-badge status-<%= shipment.status.toLowerCase().replaceAll(' ', '-') %>"
+                      >
+                        <%= shipment.status %>
+                      </span>
+
+                    </td>
+
+                    <td>
+                      <%= new Date(shipment.createdAt).toLocaleDateString() %>
+                    </td>
+
+                    <td>
+
+                      <a
+                        href="/admin/shipment/<%= shipment._id %>"
+                        class="table-action"
+                        aria-label="View shipment"
+                      >
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                      </a>
+
+                    </td>
+
+                  </tr>
+
+                <% }) %>
+
+              </tbody>
+
+            </table>
+
+          <% } %>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </section>
+
+</main>
+
+<%- include('../partials/translation') %>
+<%- include('../partials/footer') %>

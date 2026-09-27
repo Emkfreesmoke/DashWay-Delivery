@@ -1,0 +1,281 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main class="admin-page">
+
+  <section class="admin-page-header">
+    <div class="container">
+
+      <div class="admin-header-content reveal-up">
+
+        <div>
+          <span class="section-subtitle">ORDER MANAGEMENT</span>
+
+          <h1>Shipment History</h1>
+
+          <p>
+            View and manage every shipment created through the DashWay admin
+            panel.
+          </p>
+        </div>
+
+        <div class="admin-header-actions">
+
+          <a
+            href="/admin/create-shipment"
+            class="btn-primary"
+          >
+            <i class="fa-solid fa-plus"></i>
+            Create Shipment
+          </a>
+
+          <form
+            action="/admin/history/delete-all"
+            method="POST"
+            class="delete-history-form"
+            onsubmit="return confirm('Are you sure you want to delete the entire shipment history? This cannot be undone.');"
+          >
+            <button type="submit" class="btn-danger">
+              <i class="fa-solid fa-trash"></i>
+              Delete History
+            </button>
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="admin-history-section section-padding">
+
+    <div class="container">
+
+      <% if (shipments.length === 0) { %>
+
+        <div class="admin-empty-state reveal-up">
+
+          <i class="fa-solid fa-box-open"></i>
+
+          <h3>No shipment history</h3>
+
+          <p>
+            There are currently no shipments in your system.
+          </p>
+
+          <a
+            href="/admin/create-shipment"
+            class="btn-primary"
+          >
+            Create Shipment
+          </a>
+
+        </div>
+
+      <% } else { %>
+
+        <div class="history-toolbar reveal-up">
+
+          <div class="history-search">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+              type="search"
+              id="shipmentSearch"
+              placeholder="Search tracking number, recipient or destination..."
+            />
+
+          </div>
+
+
+          <select id="shipmentStatusFilter">
+
+            <option value="all">
+              All Statuses
+            </option>
+
+            <option value="Pending">
+              Pending
+            </option>
+
+            <option value="Picked Up">
+              Picked Up
+            </option>
+
+            <option value="In Transit">
+              In Transit
+            </option>
+
+            <option value="Out for Delivery">
+              Out for Delivery
+            </option>
+
+            <option value="Delivered">
+              Delivered
+            </option>
+
+            <option value="Cancelled">
+              Cancelled
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="admin-table-wrapper reveal-up">
+
+          <table
+            class="admin-table"
+            id="shipmentHistoryTable"
+          >
+
+            <thead>
+
+              <tr>
+
+                <th>Tracking</th>
+
+                <th>Recipient</th>
+
+                <th>Route</th>
+
+                <th>Service</th>
+
+                <th>Status</th>
+
+                <th>Created</th>
+
+                <th>Actions</th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              <% shipments.forEach((shipment) => { %>
+
+                <tr
+                  class="shipment-row"
+                  data-status="<%= shipment.status %>"
+                >
+
+                  <td>
+
+                    <strong class="tracking-code">
+                      <%= shipment.trackingNumber %>
+                    </strong>
+
+                  </td>
+
+
+                  <td>
+                    <%= shipment.recipientName %>
+                  </td>
+
+
+                  <td>
+
+                    <div class="route-display">
+
+                      <span>
+                        <%= shipment.origin %>
+                      </span>
+
+                      <i class="fa-solid fa-arrow-right"></i>
+
+                      <span>
+                        <%= shipment.destination %>
+                      </span>
+
+                    </div>
+
+                  </td>
+
+
+                  <td>
+                    <%= shipment.serviceType %>
+                  </td>
+
+
+                  <td>
+
+                    <span class="status-badge status-<%= shipment.status.toLowerCase().replaceAll(' ', '-') %>">
+                      <%= shipment.status %>
+                    </span>
+
+                  </td>
+
+
+                  <td>
+                    <%= new Date(shipment.createdAt).toLocaleDateString() %>
+                  </td>
+
+
+                  <td>
+
+                    <div class="table-actions">
+
+                      <a
+                        href="/admin/shipment/<%= shipment._id %>"
+                        class="table-action"
+                        title="View shipment"
+                      >
+                        <i class="fa-solid fa-eye"></i>
+                      </a>
+
+
+                      <a
+                        href="/admin/shipment/<%= shipment._id %>/edit"
+                        class="table-action"
+                        title="Edit shipment"
+                      >
+                        <i class="fa-solid fa-pen"></i>
+                      </a>
+
+
+                      <form
+                        action="/admin/shipment/<%= shipment._id %>/delete"
+                        method="POST"
+                        onsubmit="return confirm('Delete this shipment?');"
+                      >
+
+                        <button
+                          type="submit"
+                          class="table-action table-action-danger"
+                          title="Delete shipment"
+                        >
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+
+                      </form>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              <% }) %>
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      <% } %>
+
+    </div>
+
+  </section>
+
+</main>
+
+<%- include('../partials/translation') %>
+<%- include('../partials/footer') %>

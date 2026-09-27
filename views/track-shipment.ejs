@@ -1,0 +1,739 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<main class="track-page tracking-page">
+
+  <!-- =========================
+       TRACKING HERO
+  ========================== -->
+
+  <section class="track-hero">
+
+    <div class="container">
+
+      <div class="track-hero-content reveal-up">
+
+        <span class="section-subtitle">
+          SHIPMENT TRACKING
+        </span>
+
+        <h1>
+          Track Your Shipment
+          <span>In Real Time.</span>
+        </h1>
+
+        <p>
+          Enter your tracking number to see the latest location,
+          status and delivery progress of your shipment.
+        </p>
+
+        <form
+          action="/track"
+          method="GET"
+          class="tracking-search-form"
+          id="trackingForm"
+          novalidate
+        >
+
+          <div class="tracking-input-wrapper">
+
+            <i class="fa-solid fa-box"></i>
+
+            <input
+              type="text"
+              id="trackingNumber"
+              name="trackingNumber"
+              value="<%= typeof queryTrackingNumber !== 'undefined' ? queryTrackingNumber : '' %>"
+              placeholder="Enter tracking number..."
+              autocomplete="off"
+              required
+            />
+
+          </div>
+
+          <button type="submit" class="btn-primary">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            Track Shipment
+
+          </button>
+
+        </form>
+
+        <% if (typeof trackingError !== "undefined" && trackingError) { %>
+
+          <p
+            class="tracking-form-error show"
+            id="trackingError"
+            aria-live="polite"
+          >
+
+            <i class="fa-solid fa-circle-exclamation"></i>
+
+            <%= trackingError %>
+
+          </p>
+
+        <% } else { %>
+
+          <p
+            class="tracking-form-error"
+            id="trackingError"
+            aria-live="polite"
+          ></p>
+
+        <% } %>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <% if (typeof shipment !== "undefined" && shipment) { %>
+
+  <!-- =========================
+       SHIPMENT RESULTS
+  ========================== -->
+
+  <section
+    class="track-results section-padding"
+    id="trackingResult"
+  >
+
+    <div class="container">
+
+
+      <!-- =========================
+           SHIPMENT SUMMARY
+      ========================== -->
+
+      <div class="track-summary-card reveal-up">
+
+        <div class="track-summary-main">
+
+          <div class="track-summary-icon">
+            <i class="fa-solid fa-box"></i>
+          </div>
+
+          <div>
+
+            <span class="track-label">
+              TRACKING NUMBER
+            </span>
+
+            <div class="tracking-number-row">
+
+              <h2 class="tracking-number-value">
+                <%= shipment.trackingNumber %>
+              </h2>
+
+              <button
+                type="button"
+                id="copyTrackingNumber"
+                class="tracking-copy-button"
+                aria-label="Copy tracking number"
+              >
+
+                <i class="fa-regular fa-copy"></i>
+
+              </button>
+
+            </div>
+
+            <p>
+              Shipment from
+              <strong><%= shipment.origin %></strong>
+              to
+              <strong><%= shipment.destination %></strong>
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="track-current-status">
+
+          <span class="track-label">
+            CURRENT STATUS
+          </span>
+
+          <strong class="track-status tracking-status-current">
+            <%= shipment.status %>
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           DELIVERY PROGRESS
+      ========================== -->
+
+      <div 
+        class="track-progress-card reveal-up" 
+        data-current-status="<%= shipment.status %>"
+        data-history-count="<%= shipment.statusHistory ? shipment.statusHistory.length : 0 %>"
+      >
+
+        <div class="track-card-heading">
+
+          <div>
+            <span class="section-subtitle">
+              DELIVERY PROGRESS
+            </span>
+            <h2>
+              Shipment Journey
+            </h2>
+          </div>
+
+          <strong
+            class="tracking-progress-percent"
+            id="trackingProgressPercent"
+          >
+            0%
+          </strong>
+
+        </div>
+
+
+        <!-- PROGRESS BAR -->
+
+        <div class="delivery-progress">
+
+          <div class="delivery-progress-track">
+
+            <div
+              class="delivery-progress-fill"
+              id="deliveryProgressFill"
+            ></div>
+
+
+            <!-- MOVING TRUCK -->
+
+            <div
+  class="tracking-progress-truck"
+  id="trackingProgressTruck"
+>
+  <svg
+    viewBox="0 0 64 40"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <!-- Main Body -->
+    <path d="M4 8h35v21H4z" fill="#ff5722" />
+    
+    <!-- Cabin -->
+    <path d="M39 16h11l10 10v3H39z" fill="#ff5722" />
+    
+    <!-- Wheels -->
+    <circle cx="16" cy="32" r="5" fill="#1c1f26" />
+    <circle cx="51" cy="32" r="5" fill="#1c1f26" />
+    
+    <!-- Window -->
+    <path d="M44 19h6l5 6H44z" fill="#ffffff" opacity="0.9" />
+  </svg>
+</div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             SHIPMENT TIMELINE
+        ========================== -->
+
+        <div
+          class="tracking-timeline"
+          id="shipmentTimeline"
+        >
+
+          <% if (shipment.statusHistory && shipment.statusHistory.length) { %>
+
+            <% shipment.statusHistory.forEach((event, index) => { 
+                const isLast = index === shipment.statusHistory.length - 1;
+            %>
+
+              <div
+                class="tracking-timeline-item <%= isLast ? 'current' : 'completed' %>"
+              >
+
+                <div class="tracking-timeline-icon">
+
+                  <% if (isLast) { %>
+                    <i class="fa-solid fa-location-dot"></i>
+                  <% } else { %>
+                    <i class="fa-solid fa-check"></i>
+                  <% } %>
+
+                </div>
+
+                <div class="tracking-timeline-content">
+
+                  <strong>
+                    <%= event.status %>
+                  </strong>
+
+                  <% if (event.location) { %>
+                    <span>
+                      <i class="fa-solid fa-location-dot"></i>
+                      <%= event.location %>
+                    </span>
+                  <% } %>
+
+                  <% if (event.date) { %>
+                    <small>
+                      <%= new Date(event.date).toLocaleString() %>
+                    </small>
+                  <% } %>
+
+                  <% if (isLast) { %>
+                    <em>Current shipment status</em>
+                  <% } else { %>
+                    <em>Completed</em>
+                  <% } %>
+
+                </div>
+
+              </div>
+
+            <% }) %>
+
+          <% } else { %>
+
+            <div class="tracking-timeline-item current">
+
+              <div class="tracking-timeline-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+
+              <div class="tracking-timeline-content">
+
+                <strong>
+                  <%= shipment.status %>
+                </strong>
+
+                <% if (shipment.currentLocation) { %>
+                  <span>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <%= shipment.currentLocation %>
+                  </span>
+                <% } %>
+
+                <small>
+                  <%= new Date(
+                    shipment.updatedAt || shipment.createdAt
+                  ).toLocaleString() %>
+                </small>
+
+                <em>Current shipment status</em>
+
+              </div>
+
+            </div>
+
+          <% } %>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           CURRENT LOCATION
+      ========================== -->
+
+      <div class="track-map-card reveal-up">
+
+        <div class="track-card-heading">
+
+          <div>
+
+            <span class="section-subtitle">
+              LIVE LOCATION
+            </span>
+
+            <h2>
+              Shipment Location
+            </h2>
+
+          </div>
+
+          <div class="live-indicator">
+            <span></span>
+            Live Tracking
+          </div>
+
+        </div>
+
+
+        <div class="shipment-map">
+
+          <div
+            id="shipmentMap"
+            class="shipment-map-container"
+            data-origin="<%= shipment.origin || '' %>"
+            data-destination="<%= shipment.destination || '' %>"
+            data-current-location="<%= shipment.currentLocation || shipment.origin || '' %>"
+          >
+
+            <div class="map-placeholder">
+
+              <i class="fa-solid fa-map-location-dot"></i>
+
+              <h3>
+                Shipment Route
+              </h3>
+
+              <p>
+                <%= shipment.currentLocation ||
+                    shipment.origin ||
+                    "Location unavailable" %>
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           ROUTE + DELIVERY
+      ========================== -->
+
+      <div class="track-info-grid">
+
+
+        <!-- ROUTE -->
+
+        <div class="track-info-card reveal-left">
+
+          <div class="track-info-heading">
+
+            <div class="track-info-icon">
+              <i class="fa-solid fa-route"></i>
+            </div>
+
+            <div>
+
+              <span class="section-subtitle">
+                ROUTE
+              </span>
+
+              <h3>
+                Shipment Route
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <div class="track-route">
+
+            <div class="track-route-location">
+
+              <span>
+                ORIGIN
+              </span>
+
+              <strong>
+                <%= shipment.origin %>
+              </strong>
+
+            </div>
+
+
+            <div class="track-route-line">
+
+              <i class="fa-solid fa-truck"></i>
+
+            </div>
+
+
+            <div class="track-route-location">
+
+              <span>
+                DESTINATION
+              </span>
+
+              <strong>
+                <%= shipment.destination %>
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ESTIMATED DELIVERY -->
+
+        <div class="track-info-card reveal-right">
+
+          <div class="track-info-heading">
+
+            <div class="track-info-icon">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <div>
+
+              <span class="section-subtitle">
+                DELIVERY
+              </span>
+
+              <h3>
+                Estimated Delivery
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <div class="track-delivery-date">
+
+            <% if (shipment.estimatedDelivery) { %>
+
+              <strong>
+                <%= new Date(
+                  shipment.estimatedDelivery
+                ).toLocaleDateString(undefined, {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric"
+                }) %>
+              </strong>
+
+              <span>
+                Estimated arrival date
+              </span>
+
+            <% } else { %>
+
+              <strong>
+                To be confirmed
+              </strong>
+
+              <span>
+                Estimated delivery date unavailable
+              </span>
+
+            <% } %>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           PACKAGE INFORMATION
+      ========================== -->
+
+      <div class="track-package-card reveal-up">
+
+        <div class="track-card-heading">
+
+          <div>
+
+            <span class="section-subtitle">
+              PACKAGE DETAILS
+            </span>
+
+            <h2>
+              Shipment Information
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="track-package-grid">
+
+          <div class="track-package-item">
+
+            <span>
+              Service Type
+            </span>
+
+            <strong>
+              <%= shipment.shipmentType || "Not provided" %>
+            </strong>
+
+          </div>
+
+
+          <div class="track-package-item">
+
+            <span>
+              Package Type
+            </span>
+
+            <strong>
+              <%= shipment.packageType || "Not provided" %>
+            </strong>
+
+          </div>
+
+
+          <div class="track-package-item">
+
+            <span>
+              Weight
+            </span>
+
+            <strong>
+              <%= shipment.weight || "Not provided" %>
+            </strong>
+
+          </div>
+
+
+          <div class="track-package-item">
+
+            <span>
+              Quantity
+            </span>
+
+            <strong>
+              <%= shipment.quantity || "1" %>
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           ORDER DETAILS
+      ========================== -->
+
+      <% if (shipment.orderDetails) { %>
+
+      <div class="track-order-details reveal-up">
+
+        <div class="track-card-heading">
+
+          <div>
+
+            <span class="section-subtitle">
+              ORDER INFORMATION
+            </span>
+
+            <h2>
+              Order Details
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="track-order-text">
+
+          <p>
+            <%= shipment.orderDetails %>
+          </p>
+
+        </div>
+
+      </div>
+
+      <% } %>
+
+
+      <!-- =========================
+           LAST UPDATED
+      ========================== -->
+
+      <div class="track-last-update reveal-up">
+
+        <i class="fa-solid fa-clock"></i>
+
+        <div>
+
+          <span>
+            Last shipment update
+          </span>
+
+          <strong>
+            <%= new Date(
+              shipment.updatedAt || shipment.createdAt
+            ).toLocaleString(undefined, {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+              second: "2-digit"
+            }) %>
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <% } else { %>
+
+
+  <!-- =========================
+       NO SHIPMENT
+  ========================== -->
+
+  <section class="track-empty section-padding">
+
+    <div class="container">
+
+      <div class="track-empty-card reveal-up">
+
+        <div class="track-empty-icon">
+          <i class="fa-solid fa-location-crosshairs"></i>
+        </div>
+
+        <span class="section-subtitle">
+          TRACK YOUR PACKAGE
+        </span>
+
+        <h2>
+          Enter Your Tracking Number
+        </h2>
+
+        <p>
+          Enter your DashWay tracking number above to view
+          the current status and delivery progress of your shipment.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <% } %>
+
+</main>
+
+
+<%- include('partials/translation') %>
+<%- include('partials/footer') %>

@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head') %>
+
+  <body>
+    <%- include('partials/header') %>
+
+    <!-- =========================================
+         THEME TOGGLE
+    ========================================== -->
+    <!-- <button
+      class="theme-toggle"
+      id="themeToggle"
+      type="button"
+      aria-label="Toggle dark mode"
+      title="Toggle dark mode"
+    >
+      <i class="fas fa-moon"></i>
+      <span>Dark Mode</span>
+    </button> -->
+
+
+  <section class="hero-section">
+
+  <div class="hero-slider">
+
+    <!-- SLIDE 1 -->
+    <article class="hero-slide active">
+
+      <img
+        src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1800&q=85&auto=format&fit=crop"
+        alt="Cargo containers at a shipping port"
+      >
+
+      <div class="hero-overlay"></div>
+
+      <div class="container">
+
+        <div class="hero-content">
+
+          <span class="hero-eyebrow">
+            GLOBAL LOGISTICS
+          </span>
+
+          <h1>
+            Moving What
+            <span>Matters Most.</span>
+          </h1>
+
+          <p>
+            Reliable logistics solutions designed to move your
+            packages, cargo and business forward — quickly and securely.
+          </p>
+
+          <div class="hero-buttons">
+
+            <a href="/about" class="btn btn-primary">
+              Learn More
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <a href="/contact" class="btn btn-outline">
+              Contact Us
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- SLIDE 2 -->
+    <article class="hero-slide">
+
+      <img
+        src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1800&q=85&auto=format&fit=crop"
+        alt="Global cargo shipping"
+      >
+
+      <div class="hero-overlay"></div>
+
+      <div class="container">
+
+        <div class="hero-content">
+
+          <span class="hero-eyebrow">
+            WORLDWIDE SHIPPING
+          </span>
+
+          <h1>
+            Your Shipment.
+            <span>Our Priority.</span>
+          </h1>
+
+          <p>
+            From local deliveries to international freight,
+            DashWay keeps your goods moving safely and efficiently.
+          </p>
+
+          <div class="hero-buttons">
+
+            <a href="/services" class="btn btn-primary">
+              Explore Services
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <a href="/tracking" class="btn btn-outline">
+              Track Shipment
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- SLIDE 3 -->
+    <article class="hero-slide">
+
+      <img
+        src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1800&q=85&auto=format&fit=crop"
+        alt="Professional transportation and freight"
+      >
+
+      <div class="hero-overlay"></div>
+
+      <div class="container">
+
+        <div class="hero-content">
+
+          <span class="hero-eyebrow">
+            SMART LOGISTICS
+          </span>
+
+          <h1>
+            Delivered With
+            <span>Precision.</span>
+          </h1>
+
+          <p>
+            Stay informed throughout the journey with dependable
+            transportation and shipment tracking.
+          </p>
+
+          <div class="hero-buttons">
+
+            <a href="/tracking" class="btn btn-primary">
+              Track Shipment
+              <i class="fa-solid fa-location-dot"></i>
+            </a>
+
+            <a href="/contact" class="btn btn-outline">
+              Get Started
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- SLIDE 4 -->
+    <article class="hero-slide">
+
+      <img
+        src="https://images.unsplash.com/photo-1580674285054-bed31e145f59?w=1800&q=85&auto=format&fit=crop"
+        alt="Logistics transportation"
+      >
+
+      <div class="hero-overlay"></div>
+
+      <div class="container">
+
+        <div class="hero-content">
+
+          <span class="hero-eyebrow">
+            RELIABLE DELIVERY
+          </span>
+
+          <h1>
+            We Go The
+            <span>Extra Mile.</span>
+          </h1>
+
+          <p>
+            Professional logistics solutions built around
+            speed, safety and dependable customer service.
+          </p>
+
+          <div class="hero-buttons">
+
+            <a href="/contact#quote" class="btn btn-primary">
+              Get A Quote
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <a href="/about" class="btn btn-outline">
+              About DashWay
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+
+  <!-- SLIDER CONTROLS -->
+
+  <button
+    class="hero-control hero-prev"
+    id="heroPrev"
+    aria-label="Previous slide"
+  >
+    <i class="fa-solid fa-arrow-left"></i>
+  </button>
+
+  <button
+    class="hero-control hero-next"
+    id="heroNext"
+    aria-label="Next slide"
+  >
+    <i class="fa-solid fa-arrow-right"></i>
+  </button>
+
+
+  <div class="hero-dots" id="heroDots">
+
+    <button
+      class="hero-dot active"
+      data-slide="0"
+      aria-label="Slide 1"
+    ></button>
+
+    <button
+      class="hero-dot"
+      data-slide="1"
+      aria-label="Slide 2"
+    ></button>
+
+    <button
+      class="hero-dot"
+      data-slide="2"
+      aria-label="Slide 3"
+    ></button>
+
+    <button
+      class="hero-dot"
+      data-slide="3"
+      aria-label="Slide 4"
+    ></button>
+
+  </div>
+
+</section>
+
+    <!-- =========================================
+         TRACKING SECTION
+    ========================================== -->
+    <section class="track-section" id="tracking">
+      <div class="container">
+
+        <div class="track-card reveal-up">
+
+          <div class="track-content">
+            <span class="section-eyebrow">
+              SHIPMENT TRACKING
+            </span>
+
+            <h2>
+              Track Your Shipment
+              <span class="text-brand">In Real Time.</span>
+            </h2>
+
+            <p>
+              Enter your tracking number and get the latest status of your
+              shipment.
+            </p>
+          </div>
+
+          <form
+            action="/track"
+            method="GET"
+            class="track-form"
+          >
+            <div class="track-input-wrapper">
+              <i class="fas fa-box"></i>
+
+              <input
+                type="text"
+                name="trackingNumber"
+                class="track-input"
+                placeholder="Enter tracking number..."
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-search"></i>
+              Track Shipment
+            </button>
+          </form>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================================
+         SERVICES SECTION
+    ========================================== -->
+    <section class="section-padding services-section">
+      <div class="container">
+
+        <div class="section-header reveal-up">
+          <span class="section-eyebrow">
+            WHAT WE DO
+          </span>
+
+          <h2 class="section-title">
+            Our <span class="text-brand">Services</span>
+          </h2>
+
+          <p>
+            Comprehensive shipping and logistics solutions tailored to your
+            business needs.
+          </p>
+        </div>
+
+
+        <div class="services-grid">
+
+          <% services.forEach((service, index) => { %>
+
+            <article
+              class="service-card <%= index % 2 === 0 ? 'reveal-left' : 'reveal-right' %>"
+            >
+
+              <div class="service-img">
+                <img
+                  src="<%= service.image %>"
+                  alt="<%= service.title %>"
+                  loading="lazy"
+                />
+
+                <div class="service-img-overlay">
+                  <i class="fas fa-arrow-right"></i>
+                </div>
+              </div>
+
+              <div class="service-body">
+
+                <span class="service-number">
+                  <%= String(index + 1).padStart(2, '0') %>
+                </span>
+
+                <h3>
+                  <%= service.title %>
+                </h3>
+
+                <p>
+                  <%= service.description %>
+                </p>
+
+                <a href="/service" class="service-link">
+                  Learn More
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+
+              </div>
+
+            </article>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================================
+         WHY CHOOSE US
+    ========================================== -->
+    <section class="section-padding reason-section">
+      <div class="container">
+
+        <div class="section-header reveal-up">
+          <span class="section-eyebrow">
+            WHY DASHWAY
+          </span>
+
+          <h2 class="section-title">
+            Why <span class="text-brand">Choose Us?</span>
+          </h2>
+
+          <p>
+            Trusted by customers for reliable, secure and professional
+            logistics solutions.
+          </p>
+        </div>
+
+
+        <div class="reason-grid">
+
+          <article class="reason-card reveal-left">
+            <div class="brand-icon-circle">
+              <i class="fas fa-search-location"></i>
+            </div>
+
+            <span class="reason-number">01</span>
+
+            <h3>Track & Trace</h3>
+
+            <p>
+              Fast and reliable shipment tracking with real-time status
+              updates and advanced tracking technology.
+            </p>
+          </article>
+
+
+          <article class="reason-card reveal-right">
+            <div class="brand-icon-circle">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+
+            <span class="reason-number">02</span>
+
+            <h3>Secure Warehousing</h3>
+
+            <p>
+              We leverage a network of operational warehouses supported by
+              modern security systems.
+            </p>
+          </article>
+
+
+          <article class="reason-card reveal-left">
+            <div class="brand-icon-circle">
+              <i class="fas fa-shipping-fast"></i>
+            </div>
+
+            <span class="reason-number">03</span>
+
+            <h3>Express Delivery</h3>
+
+            <p>
+              Efficient delivery infrastructure designed to get your
+              shipments where they need to go quickly.
+            </p>
+          </article>
+
+
+          <article class="reason-card reveal-right">
+            <div class="brand-icon-circle">
+              <i class="fas fa-truck-loading"></i>
+            </div>
+
+            <span class="reason-number">04</span>
+
+            <h3>Domestic Services</h3>
+
+            <p>
+              Next-business-day delivery for time-sensitive parcels with
+              comprehensive domestic coverage.
+            </p>
+          </article>
+
+
+          <article class="reason-card reveal-left">
+            <div class="brand-icon-circle">
+              <i class="fas fa-globe"></i>
+            </div>
+
+            <span class="reason-number">05</span>
+
+            <h3>Global Coverage</h3>
+
+            <p>
+              US, Europe and worldwide coverage by sea and air for a broad
+              range of international freight services.
+            </p>
+          </article>
+
+
+          <article class="reason-card reveal-right">
+            <div class="brand-icon-circle">
+              <i class="fas fa-headset"></i>
+            </div>
+
+            <span class="reason-number">06</span>
+
+            <h3>24/7 Support</h3>
+
+            <p>
+              Get online support and expert advice from our dedicated
+              customer service team whenever you need it.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- =========================================
+         STATS / IMPACT SECTION
+    ========================================== -->
+    <section class="section-padding stats-section">
+
+      <div class="container">
+
+        <div class="section-header reveal-up">
+          <span class="section-eyebrow">
+            OUR NUMBERS
+          </span>
+
+          <h2 class="section-title">
+            Our Impact &
+            <span class="text-brand">Achievements</span>
+          </h2>
+
+          <p>
+            Delivering excellence across the globe with industry-leading
+            standards.
+          </p>
+        </div>
+
+
+        <div class="stats-grid2">
+
+          <!-- Delivered Packages -->
+          <article class="stat-card reveal-left">
+            <div class="stat-icon-square">
+              <i class="fas fa-box"></i>
+            </div>
+
+            <div class="stat-num">101,273+</div>
+
+            <div class="stat-label">
+              Delivered Packages
+            </div>
+          </article>
+
+
+          <!-- KM -->
+          <article class="stat-card reveal-right">
+            <div class="stat-icon-square">
+              <i class="fas fa-route"></i>
+            </div>
+
+            <div class="stat-num">673,754+</div>
+
+            <div class="stat-label">
+              KM Per Year
+            </div>
+          </article>
+
+
+          <!-- Clients -->
+          <article class="stat-card reveal-left">
+            <div class="stat-icon-square">
+              <i class="fas fa-smile"></i>
+            </div>
+
+            <div class="stat-num">16,714+</div>
+
+            <div class="stat-label">
+              Happy Clients
+            </div>
+          </article>
+
+
+          <!-- Countries -->
+          <article class="stat-card reveal-right">
+            <div class="stat-icon-square">
+              <i class="fas fa-globe-americas"></i>
+            </div>
+
+            <div class="stat-num">160+</div>
+
+            <div class="stat-label">
+              Countries Served
+            </div>
+          </article>
+
+
+          <!-- Performance -->
+          <article class="stat-card stat-card-large reveal-left">
+
+            <div class="stat-icon-square">
+              <i class="fas fa-truck"></i>
+            </div>
+
+            <h3>Delivery Performance</h3>
+
+            <div class="stat-num-sub">
+              99.8%
+              <span>On-Time Delivery</span>
+            </div>
+
+            <p>
+              Industry-leading on-time delivery performance across all
+              shipping methods.
+            </p>
+
+          </article>
+
+
+          <!-- Tracking -->
+          <article class="stat-card stat-card-large reveal-right">
+
+            <div class="stat-icon-square">
+              <i class="fas fa-search-location"></i>
+            </div>
+
+            <h3>Tracking Precision</h3>
+
+            <div class="stat-num-sub">
+              Real-time
+              <span>GPS Accuracy</span>
+            </div>
+
+            <p>
+              Advanced tracking systems with minute-by-minute updates and
+              GPS precision.
+            </p>
+
+          </article>
+
+
+          <!-- Satisfaction -->
+          <article class="stat-card stat-card-large reveal-left">
+
+            <div class="stat-icon-square">
+              <i class="fas fa-star"></i>
+            </div>
+
+            <h3>Client Satisfaction</h3>
+
+            <div class="stat-num-sub">
+              4.9/5
+              <span>Average Rating</span>
+            </div>
+
+            <p>
+              Outstanding client satisfaction across our logistics services.
+            </p>
+
+          </article>
+
+
+          <!-- Experience -->
+          <article class="compact-stat-card reveal-right">
+
+            <div class="stat-icon-square">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+
+            <div class="compact-stat-info">
+              <h4>11+ Years</h4>
+              <p>Industry Experience</p>
+            </div>
+
+          </article>
+
+
+          <!-- Security -->
+          <article class="compact-stat-card reveal-left">
+
+            <div class="stat-icon-square">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+
+            <div class="compact-stat-info">
+              <h4>ISO 27001</h4>
+              <p>Security Certification</p>
+            </div>
+
+          </article>
+
+
+          <!-- Awards -->
+          <article class="compact-stat-card reveal-right">
+
+            <div class="stat-icon-square">
+              <i class="fas fa-trophy"></i>
+            </div>
+
+            <div class="compact-stat-info">
+              <h4>8+ Awards</h4>
+              <p>Industry Recognition</p>
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         TESTIMONIALS
+    ========================================== -->
+    <section class="section-padding testimony-section">
+
+      <div class="container">
+
+        <div class="section-header reveal-up">
+
+          <span class="section-eyebrow">
+            CUSTOMER STORIES
+          </span>
+
+          <h2 class="section-title">
+            What Our <span class="text-brand">Clients Say</span>
+          </h2>
+
+          <p>
+            Hear from our satisfied customers about their experience with
+            our logistics solutions.
+          </p>
+
+        </div>
+
+
+        <div class="testimonials-grid">
+
+          <article class="testimonial-card reveal-left">
+
+            <div class="testimonial-stars">
+              ★★★★★
+            </div>
+
+            <p class="testimonial-text">
+              "Given my past experiences with other logistics companies,
+              I can say without exception that the services provided by
+              this company greatly exceed industry standards."
+            </p>
+
+            <div class="testimonial-author">
+
+              <div class="avatar-initials">
+                MP
+              </div>
+
+              <div class="author-info">
+                <span class="author-name">
+                  Monique Pete
+                </span>
+
+                <span class="author-role">
+                  Supply Chain Manager
+                </span>
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <article class="testimonial-card reveal-up">
+
+            <div class="testimonial-stars">
+              ★★★★★
+            </div>
+
+            <p class="testimonial-text">
+              "More than once, this company has saved the day, delivering
+              our cargo on time with short notice. They have won my gratitude
+              and loyalty with their can-do approach."
+            </p>
+
+            <div class="testimonial-author">
+
+              <div class="avatar-initials">
+                SA
+              </div>
+
+              <div class="author-info">
+                <span class="author-name">
+                  Steve Angela
+                </span>
+
+                <span class="author-role">
+                  Logistics Team, Oxea Chemicals
+                </span>
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <article class="testimonial-card reveal-right">
+
+            <div class="testimonial-stars">
+              ★★★★★
+            </div>
+
+            <p class="testimonial-text">
+              "I am very pleased with the service provided by this company.
+              They find good carriers and use them regularly so we get a
+              high level of service. Their communication is outstanding."
+            </p>
+
+            <div class="testimonial-author">
+
+              <div class="avatar-initials">
+                CB
+              </div>
+
+              <div class="author-info">
+                <span class="author-name">
+                  Charlse Bernard
+                </span>
+
+                <span class="author-role">
+                  President, Duplication Factory
+                </span>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         FINAL CTA
+    ========================================== -->
+    <section class="section-padding cta-section">
+
+      <div class="container">
+
+        <div class="cta-card reveal-up">
+
+          <div class="cta-content">
+
+            <span class="section-eyebrow">
+              READY WHEN YOU ARE
+            </span>
+
+            <h2>
+              Ready to Ship
+              <span class="text-brand">With Confidence?</span>
+            </h2>
+
+            <p>
+              Get started with our professional logistics services today.
+              Contact us for a free quote and experience the DashWay
+              difference.
+            </p>
+
+          </div>
+
+
+          <div class="hero-actions">
+
+            <a href="/tracking" class="btn-primary">
+              Track Shipment
+            </a>
+
+            <a href="/contact" class="btn-outline">
+              Get Free Quote
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <%- include('partials/translation') %>
+    <%- include('partials/footer') %>
+
+    <!-- Main JavaScript
+    <script src="/js/main.js"></script> -->
+
+  </body>
+</html>

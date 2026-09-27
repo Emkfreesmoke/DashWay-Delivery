@@ -1,0 +1,410 @@
+<%- include('../partials/head') %> <%- include('../partials/header') %>
+
+<main class="admin-page">
+  <!-- =========================
+       PAGE HEADER
+  ========================== -->
+
+  <section class="admin-page-header">
+    <div class="container">
+      <div class="admin-header-content reveal-up">
+        <div>
+          <span class="section-subtitle">SHIPMENT MANAGEMENT</span>
+
+          <h1>Create Shipment</h1>
+
+          <p>
+            Create a new shipment and add all the information needed for
+            tracking and delivery.
+          </p>
+        </div>
+
+        <a href="/admin" class="btn-outline">
+          <i class="fa-solid fa-arrow-left"></i>
+          Dashboard
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       CREATE SHIPMENT FORM
+  ========================== -->
+
+  <section class="admin-form-section section-padding">
+    <div class="container">
+      <form
+        action="/admin/create-shipment"
+        method="POST"
+        class="admin-form-card reveal-up"
+      >
+        <div class="admin-form-heading">
+          <span class="section-subtitle"> SHIPMENT INFORMATION </span>
+
+          <h2>Shipment Details</h2>
+
+          <p>
+            Enter the information below to create the shipment. Your tracking
+            number will be generated automatically.
+          </p>
+        </div>
+
+        <!-- =========================
+             TRACKING INFORMATION
+        ========================== -->
+
+        <div class="admin-form-section-title">
+          <i class="fa-solid fa-barcode"></i>
+
+          <h3>Tracking Information</h3>
+        </div>
+
+        <div class="admin-form-grid">
+          <!-- AUTO GENERATED TRACKING NUMBER -->
+
+          <div class="admin-form-group">
+            <label for="trackingNumberPreview"> Tracking Number </label>
+
+            <div class="tracking-auto-field">
+              <div class="tracking-auto-icon">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+
+              <div class="tracking-auto-content">
+                <strong>Automatically Generated</strong>
+
+                <span>
+                  Your unique DashWay tracking number will be generated when
+                  this shipment is created.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- STATUS -->
+
+          <div class="admin-form-group">
+            <label for="status"> Shipment Status </label>
+
+            <select id="status" name="status">
+              <option value="Pending">Pending</option>
+
+              <option value="Picked Up">Picked Up</option>
+
+              <option value="In Transit">In Transit</option>
+
+              <option value="Out for Delivery">Out for Delivery</option>
+
+              <option value="Delivered">Delivered</option>
+
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- =========================
+             SENDER INFORMATION
+        ========================== -->
+
+        <div class="admin-form-section-title">
+          <i class="fa-solid fa-user"></i>
+
+          <h3>Sender Information</h3>
+        </div>
+
+        <div class="admin-form-grid">
+          <div class="admin-form-group">
+            <label for="senderName"> Sender Name </label>
+
+            <input
+              type="text"
+              id="senderName"
+              name="senderName"
+              placeholder="Sender full name"
+              required
+            />
+          </div>
+
+          <div class="admin-form-group">
+            <label for="senderEmail"> Sender Email </label>
+
+            <input
+              type="email"
+              id="senderEmail"
+              name="senderEmail"
+              placeholder="sender@example.com"
+              required
+            />
+          </div>
+
+          <div class="admin-form-group">
+            <label for="senderPhone"> Sender Phone </label>
+
+            <input
+              type="tel"
+              id="senderPhone"
+              name="senderPhone"
+              placeholder="+234..."
+            />
+          </div>
+
+          <div class="admin-form-group admin-form-group-full">
+            <label for="senderAddress"> Sender Address </label>
+
+            <input
+              type="text"
+              id="senderAddress"
+              name="senderAddress"
+              placeholder="Full sender address"
+            />
+          </div>
+        </div>
+
+        <!-- =========================
+             RECIPIENT INFORMATION
+        ========================== -->
+
+        <div class="admin-form-section-title">
+          <i class="fa-solid fa-location-dot"></i>
+
+          <h3>Recipient Information</h3>
+        </div>
+
+        <div class="admin-form-grid">
+          <div class="admin-form-group">
+            <label for="receiverName"> Recipient Name </label>
+
+            <input
+              type="text"
+              id="receiverName"
+              name="receiverName"
+              placeholder="Recipient full name"
+              required
+            />
+          </div>
+
+          <div class="admin-form-group">
+            <label for="receiverEmail"> Recipient Email </label>
+
+            <input
+              type="email"
+              id="receiverEmail"
+              name="receiverEmail"
+              placeholder="recipient@example.com"
+              required
+            />
+          </div>
+
+          <div class="admin-form-group">
+            <label for="receiverPhone"> Recipient Phone </label>
+
+            <input
+              type="tel"
+              id="receiverPhone"
+              name="receiverPhone"
+              placeholder="+234..."
+            />
+          </div>
+
+          <div class="admin-form-group admin-form-group-full">
+            <label for="receiverAddress"> Recipient Address </label>
+
+            <input
+              type="text"
+              id="receiverAddress"
+              name="receiverAddress"
+              placeholder="Full recipient address"
+            />
+          </div>
+        </div>
+
+        <!-- =========================
+             SHIPMENT ROUTE
+        ========================== -->
+
+        <div class="admin-form-section-title">
+          <i class="fa-solid fa-route"></i>
+
+          <h3>Shipment Route</h3>
+        </div>
+
+        <div class="admin-form-grid">
+          <div class="admin-form-group">
+            <label for="origin"> Origin </label>
+
+            <input
+              type="text"
+              id="origin"
+              name="origin"
+              placeholder="Lagos, Nigeria"
+              required
+            />
+          </div>
+
+          <div class="admin-form-group">
+            <label for="destination"> Destination </label>
+
+            <input
+              type="text"
+              id="destination"
+              name="destination"
+              placeholder="London, United Kingdom"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- =========================
+             PACKAGE INFORMATION
+        ========================== -->
+
+        <div class="admin-form-section-title">
+          <i class="fa-solid fa-box"></i>
+
+          <h3>Package Information</h3>
+        </div>
+
+        <div class="admin-form-grid">
+          <!-- SERVICE TYPE -->
+
+          <div class="admin-form-group">
+            <label for="shipmentType"> Service Type </label>
+
+            <select id="shipmentType" name="shipmentType" required>
+              <option value="">Select service</option>
+
+              <option value="Air Freight">Air Freight</option>
+
+              <option value="Sea/Ocean Freight">Sea/Ocean Freight</option>
+
+              <option value="Road Transportation">Road Transportation</option>
+
+              <option value="Diplomatic Logistics">Diplomatic Logistics</option>
+
+              <option value="Warehousing">Warehousing</option>
+
+              <option value="Packaging & Storage">Packaging & Storage</option>
+            </select>
+          </div>
+
+          <!-- PACKAGE TYPE -->
+
+          <div class="admin-form-group">
+            <label for="packageType"> Package Type </label>
+
+            <input
+              type="text"
+              id="packageType"
+              name="packageType"
+              placeholder="Box, Envelope, Pallet..."
+            />
+          </div>
+
+          <!-- WEIGHT -->
+
+          <div class="admin-form-group">
+            <label for="weight"> Weight </label>
+
+            <input type="text" id="weight" name="weight" placeholder="25 kg" />
+          </div>
+
+          <!-- QUANTITY -->
+
+          <div class="admin-form-group">
+            <label for="quantity"> Quantity </label>
+
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              min="1"
+              value="1"
+            />
+          </div>
+
+          <!-- ESTIMATED DELIVERY -->
+
+          <div class="admin-form-group">
+            <label for="estimatedDelivery"> Estimated Delivery </label>
+
+            <input
+              type="date"
+              id="estimatedDelivery"
+              name="estimatedDelivery"
+            />
+          </div>
+        </div>
+
+        <!-- =========================
+             ORDER DETAILS
+        ========================== -->
+
+        <div class="admin-form-section-title">
+          <i class="fa-solid fa-file-lines"></i>
+
+          <h3>Order Details</h3>
+        </div>
+
+        <div class="admin-form-group">
+          <label for="orderDetails"> Order Details </label>
+
+          <textarea
+            id="orderDetails"
+            name="orderDetails"
+            rows="7"
+            placeholder="Enter additional information about this shipment..."
+          ></textarea>
+
+          <small>
+            Add special instructions, package information, customer requests,
+            handling instructions or any other relevant details.
+          </small>
+        </div>
+
+        <!-- =========================
+             ADMIN NOTES
+        ========================== -->
+
+        <div class="admin-form-section-title">
+          <i class="fa-solid fa-note-sticky"></i>
+
+          <h3>Admin Notes</h3>
+        </div>
+
+        <div class="admin-form-group">
+          <label for="adminNotes"> Internal Notes </label>
+
+          <textarea
+            id="adminNotes"
+            name="adminNotes"
+            rows="5"
+            placeholder="Add private notes about this shipment..."
+          ></textarea>
+
+          <small>
+            These notes are intended for internal shipment management.
+          </small>
+        </div>
+
+        <!-- =========================
+             FORM ACTIONS
+        ========================== -->
+
+        <div class="admin-form-actions">
+          <a href="/admin" class="btn-outline">
+            <i class="fa-solid fa-xmark"></i>
+            Cancel
+          </a>
+
+          <button type="submit" class="btn-primary">
+            <i class="fa-solid fa-plus"></i>
+
+            Create Shipment
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<%- include('../partials/translation') %> <%- include('../partials/footer') %>

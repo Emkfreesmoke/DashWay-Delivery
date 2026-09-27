@@ -1,0 +1,716 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<main class="admin-page">
+
+  <!-- =========================
+       PAGE HEADER
+  ========================== -->
+
+  <section class="admin-page-header">
+
+    <div class="container">
+
+      <div class="admin-header-content reveal-up">
+
+        <div>
+
+          <span class="section-subtitle">
+            SHIPMENT MANAGEMENT
+          </span>
+
+          <h1>Shipment Details</h1>
+
+          <p>
+            View and manage the complete information for this shipment.
+          </p>
+
+        </div>
+
+
+        <div class="admin-header-actions">
+
+          <a href="/admin" class="btn-outline">
+            <i class="fa-solid fa-arrow-left"></i>
+            Dashboard
+          </a>
+
+          <a href="/admin/history" class="btn-outline">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            History
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       SHIPMENT DETAILS
+  ========================== -->
+
+  <section class="admin-details-section section-padding">
+
+    <div class="container">
+
+
+      <!-- =========================
+           TOP SHIPMENT SUMMARY
+      ========================== -->
+
+      <div class="shipment-summary-card reveal-up">
+
+        <div class="shipment-summary-left">
+
+          <div class="shipment-summary-icon">
+            <i class="fa-solid fa-box"></i>
+          </div>
+
+          <div>
+
+            <span class="shipment-summary-label">
+              TRACKING NUMBER
+            </span>
+
+            <h2 class="shipment-tracking-number">
+              <%= shipment.trackingNumber %>
+            </h2>
+
+            <p>
+              Created
+              <%= new Date(shipment.createdAt).toLocaleDateString() %>
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="shipment-summary-status">
+
+          <span class="shipment-summary-label">
+            CURRENT STATUS
+          </span>
+
+          <span
+            class="status-badge status-<%= shipment.status.toLowerCase().replaceAll(' ', '-') %>"
+          >
+            <%= shipment.status %>
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           STATUS UPDATE
+      ========================== -->
+
+      <div class="admin-details-card reveal-up">
+
+        <div class="admin-details-card-heading">
+
+          <div>
+
+            <span class="section-subtitle">
+              DELIVERY MANAGEMENT
+            </span>
+
+            <h2>Update Shipment Status</h2>
+
+          </div>
+
+        </div>
+
+
+        <form
+          action="/admin/shipment/<%= shipment._id %>/update"
+          method="POST"
+          class="status-update-form"
+        >
+
+          <div class="admin-form-group">
+
+            <label for="status">
+              Shipment Status
+            </label>
+
+            <select
+              id="status"
+              name="status"
+            >
+
+              <option
+                value="Pending"
+                <%= shipment.status === "Pending" ? "selected" : "" %>
+              >
+                Pending
+              </option>
+
+              <option
+                value="Picked Up"
+                <%= shipment.status === "Picked Up" ? "selected" : "" %>
+              >
+                Picked Up
+              </option>
+
+              <option
+                value="In Transit"
+                <%= shipment.status === "In Transit" ? "selected" : "" %>
+              >
+                In Transit
+              </option>
+
+              <option
+                value="Out for Delivery"
+                <%= shipment.status === "Out for Delivery" ? "selected" : "" %>
+              >
+                Out for Delivery
+              </option>
+
+              <option
+                value="Arrives Airport"
+                <%= shipment.status === "Arrives Airport" ? "selected" : "" %>
+              >
+                Arrives Airport
+              </option>
+               <option
+                value="Package departed"
+                <%= shipment.status === "Package departed" ? "selected" : "" %>
+              >
+                Package departed 
+              </option>
+              <option
+                value="Arrived country of destination"
+                <%= shipment.status === "Arrived country of destination" ? "selected" : "" %>
+              >
+                Arrived country of destination
+              </option>
+              <option
+                value="Custom Clearance"
+                <%= shipment.status === "Custom Clearance" ? "selected" : "" %>
+              >
+               Custom Clearance
+              </option>
+              <option
+                value="Awaiting Custom Clearance"
+                <%= shipment.status === "Awaiting Custom Clearance" ? "selected" : "" %>
+              >
+                Awaiting Custom Clearance
+              </option>
+
+               <option
+                value="Delivered"
+                <%= shipment.status === "Delivered" ? "selected" : "" %>
+              >
+                Delivered
+              </option>
+
+              <option
+                value="Cancelled"
+                <%= shipment.status === "Cancelled" ? "selected" : "" %>
+              >
+                Cancelled
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="btn-primary"
+          >
+            <i class="fa-solid fa-arrows-rotate"></i>
+            Update Status
+          </button>
+
+        </form>
+
+      </div>
+
+
+      <!-- =========================
+           SENDER + RECIPIENT
+      ========================== -->
+
+      <div class="shipment-details-grid">
+
+
+        <!-- SENDER -->
+
+        <div class="admin-details-card reveal-left">
+
+          <div class="admin-details-card-heading">
+
+            <div class="details-heading-icon">
+              <i class="fa-solid fa-user"></i>
+            </div>
+
+            <div>
+
+              <span class="section-subtitle">
+                FROM
+              </span>
+
+              <h2>Sender Information</h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="shipment-info-list">
+
+            <div class="shipment-info-item">
+
+              <span>Name</span>
+
+              <strong>
+                <%= shipment.senderName || "Not provided" %>
+              </strong>
+
+            </div>
+
+
+            <div class="shipment-info-item">
+
+              <span>Email</span>
+
+              <strong>
+                <%= shipment.senderEmail || "Not provided" %>
+              </strong>
+
+            </div>
+
+
+            <div class="shipment-info-item">
+
+              <span>Phone</span>
+
+              <strong>
+                <%= shipment.senderPhone || "Not provided" %>
+              </strong>
+
+            </div>
+
+
+            <div class="shipment-info-item">
+
+              <span>Address</span>
+
+              <strong>
+                <%= shipment.senderAddress || "Not provided" %>
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- RECIPIENT -->
+
+        <div class="admin-details-card reveal-right">
+
+          <div class="admin-details-card-heading">
+
+            <div class="details-heading-icon">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+
+            <div>
+
+              <span class="section-subtitle">
+                TO
+              </span>
+
+              <h2>Recipient Information</h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="shipment-info-list">
+
+            <div class="shipment-info-item">
+
+              <span>Name</span>
+
+              <strong>
+                <%= shipment.receiverName || "Not provided" %>
+              </strong>
+
+            </div>
+
+
+            <div class="shipment-info-item">
+
+              <span>Email</span>
+
+              <strong>
+                <%= shipment.receiverEmail || "Not provided" %>
+              </strong>
+
+            </div>
+
+
+            <div class="shipment-info-item">
+
+              <span>Phone</span>
+
+              <strong>
+                <%= shipment.receiverPhone || "Not provided" %>
+              </strong>
+
+            </div>
+
+
+            <div class="shipment-info-item">
+
+              <span>Address</span>
+
+              <strong>
+                <%= shipment.receiverAddress || "Not provided" %>
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           ROUTE
+      ========================== -->
+
+      <div class="admin-details-card reveal-up">
+
+        <div class="admin-details-card-heading">
+
+          <div class="details-heading-icon">
+            <i class="fa-solid fa-route"></i>
+          </div>
+
+          <div>
+
+            <span class="section-subtitle">
+              SHIPMENT ROUTE
+            </span>
+
+            <h2>Origin & Destination</h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="shipment-route">
+
+          <div class="route-location">
+
+            <span class="route-label">
+              ORIGIN
+            </span>
+
+            <div class="route-value">
+
+              <i class="fa-solid fa-circle-dot"></i>
+
+              <strong>
+                <%= shipment.origin %>
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="route-line">
+
+            <i class="fa-solid fa-truck"></i>
+
+          </div>
+
+
+          <div class="route-location">
+
+            <span class="route-label">
+              DESTINATION
+            </span>
+
+            <div class="route-value">
+
+              <i class="fa-solid fa-location-dot"></i>
+
+              <strong>
+                <%= shipment.destination %>
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           PACKAGE INFORMATION
+      ========================== -->
+
+      <div class="admin-details-card reveal-up">
+
+        <div class="admin-details-card-heading">
+
+          <div class="details-heading-icon">
+            <i class="fa-solid fa-box-open"></i>
+          </div>
+
+          <div>
+
+            <span class="section-subtitle">
+              PACKAGE
+            </span>
+
+            <h2>Package Information</h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="shipment-info-grid">
+
+          <div class="shipment-info-item">
+
+            <span>Service Type</span>
+
+            <strong>
+              <%= shipment.shipmentType || "Not provided" %>
+            </strong>
+
+          </div>
+
+
+          <div class="shipment-info-item">
+
+            <span>Package Type</span>
+
+            <strong>
+              <%= shipment.packageType || "Not provided" %>
+            </strong>
+
+          </div>
+
+
+          <div class="shipment-info-item">
+
+            <span>Weight</span>
+
+            <strong>
+              <%= shipment.weight || "Not provided" %>
+            </strong>
+
+          </div>
+
+
+          <div class="shipment-info-item">
+
+            <span>Quantity</span>
+
+            <strong>
+              <%= shipment.quantity || "1" %>
+            </strong>
+
+          </div>
+
+
+          <div class="shipment-info-item">
+
+            <span>Estimated Delivery</span>
+
+            <strong>
+
+              <% if (shipment.estimatedDelivery) { %>
+
+                <%= new Date(
+                  shipment.estimatedDelivery
+                ).toLocaleDateString() %>
+
+              <% } else { %>
+
+                Not provided
+
+              <% } %>
+
+            </strong>
+
+          </div>
+
+
+          <div class="shipment-info-item">
+
+            <span>Date Created</span>
+
+            <strong>
+              <%= new Date(
+                shipment.createdAt
+              ).toLocaleDateString() %>
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           ORDER DETAILS
+      ========================== -->
+
+      <div class="admin-details-card reveal-left">
+
+        <div class="admin-details-card-heading">
+
+          <div class="details-heading-icon">
+            <i class="fa-solid fa-file-lines"></i>
+          </div>
+
+          <div>
+
+            <span class="section-subtitle">
+              ORDER INFORMATION
+            </span>
+
+            <h2>Order Details</h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="shipment-long-text">
+
+          <% if (shipment.orderDetails) { %>
+
+            <p>
+              <%= shipment.orderDetails %>
+            </p>
+
+          <% } else { %>
+
+            <p class="empty-detail">
+              No order details were provided for this shipment.
+            </p>
+
+          <% } %>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           ADMIN NOTES
+      ========================== -->
+
+      <div class="admin-details-card reveal-right">
+
+        <div class="admin-details-card-heading">
+
+          <div class="details-heading-icon">
+            <i class="fa-solid fa-note-sticky"></i>
+          </div>
+
+          <div>
+
+            <span class="section-subtitle">
+              INTERNAL
+            </span>
+
+            <h2>Admin Notes</h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="shipment-long-text">
+
+          <% if (shipment.adminNotes) { %>
+
+            <p>
+              <%= shipment.adminNotes %>
+            </p>
+
+          <% } else { %>
+
+            <p class="empty-detail">
+              No internal notes have been added.
+            </p>
+
+          <% } %>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           ACTIONS
+      ========================== -->
+
+      <div class="shipment-admin-actions reveal-up">
+
+        <a
+          href="/admin/edit-shipment/<%= shipment._id %>"
+          class="btn-outline"
+        >
+          <i class="fa-solid fa-pen"></i>
+          Edit Shipment
+        </a>
+
+
+        <form
+          action="/admin/shipment/<%= shipment._id %>/delete"
+          method="POST"
+          class="delete-shipment-form"
+          onsubmit="return confirm('Are you sure you want to delete this shipment?');"
+        >
+
+          <button
+            type="submit"
+            class="admin-delete-button"
+          >
+            <i class="fa-solid fa-trash"></i>
+            Delete Shipment
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<%- include('../partials/translation') %>
+
+<%- include('../partials/footer') %>
