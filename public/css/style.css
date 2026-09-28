@@ -9105,3 +9105,32 @@ body.dark-mode .dashway-loader-content p {
     height: 36px;
   }
 }
+/* 1. Expand the main header wrapper on mobile */
+.header-main-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 100% !important; /* Overrides any constrained max-width (e.g., 1200px) */
+  padding-left: 15px !important; /* Controls space from left screen edge */
+  padding-right: 15px !important; /* Controls space from right screen edge */
+}
+
+/* 2. Align the icon group to the far right */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Adjusts spacing between search, moon, and hamburger icons */
+  margin-left: auto; /* Forces the group all the way to the right edge */
+  margin-right: 0;
+}
+@media (max-width: 768px) {
+  .header-main-inner {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .header-actions {
+    gap: 10px;
+  }
+}

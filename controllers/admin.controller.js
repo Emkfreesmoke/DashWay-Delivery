@@ -63,9 +63,9 @@ const getCreateShipment = (req, res) => {
   });
 };
 
-// ===============================
+// ===================================
 // CREATE NEW SHIPMENT
-// ===============================
+// ===================================
 const createShipment = async (req, res) => {
   try {
     const {
@@ -74,75 +74,74 @@ const createShipment = async (req, res) => {
       senderEmail,
       senderPhone,
       senderAddress,
-
       receiverName,
       receiverEmail,
       receiverPhone,
       receiverAddress,
-
       origin,
       destination,
-
       shipmentType,
       packageType,
       weight,
       quantity,
       estimatedDelivery,
-
       orderDetails,
       adminNotes,
     } = req.body;
 
-    // Generate tracking number automatically.
-    // Admin does NOT enter or choose the tracking number.
-    const trackingNumber = await Shipment.generateTrackingNumber();
+    // Safe tracking number generation with fallback
+    let trackingNumber;
+    try {
+      if (typeof Shipment.generateTrackingNumber === "function") {
+        trackingNumber = await Shipment.generateTrackingNumber();
+      } else {
+        trackingNumber = "DW" + Math.floor(10000000 + Math.random() * 90000000);
+      }
+    } catch (genErr) {
+      console.error("Tracking number generation error:", genErr);
+      trackingNumber = "DW" + Date.now().toString().slice(-8);
+    }
 
     const initialStatus = status || "Pending";
 
     const shipment = new Shipment({
       trackingNumber,
       status: initialStatus,
-
-      statusHistory: [
-        {
-          status: initialStatus,
-          location: "",
-          date: new Date(),
-        },
-      ],
       senderName,
       senderEmail,
       senderPhone,
       senderAddress,
-
       receiverName,
       receiverEmail,
       receiverPhone,
       receiverAddress,
-
       origin,
       destination,
-
       shipmentType,
       packageType,
       weight,
       quantity,
-
       estimatedDelivery,
-
       orderDetails,
       adminNotes,
+      statusHistory: [
+        {
+          status: initialStatus,
+          location: origin || "",
+          date: new Date(),
+        },
+      ],
     });
 
     await shipment.save();
-
-    console.log(`Shipment created successfully: ${trackingNumber}`);
-
-    res.redirect(`/admin/shipment/${shipment._id}`);
+    return res.redirect("/admin/dashboard");
   } catch (error) {
     console.error("Error creating shipment:", error);
-
-    res.status(500).send("Unable to create shipment. Please try again.");
+    return res.status(500).render("admin/create-shipment", {
+      title: "Create Shipment | DashWay",
+      errorMessage: "Failed to create shipment: " + error.message,
+      formData: req.body,
+    });
   }
 };
 
