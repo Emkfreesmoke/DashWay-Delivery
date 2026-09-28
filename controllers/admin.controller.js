@@ -134,7 +134,7 @@ const createShipment = async (req, res) => {
     });
 
     await shipment.save();
-    return res.redirect("/admin/dashboard");
+    return res.redirect("/admin");
   } catch (error) {
     console.error("Error creating shipment:", error);
     return res.status(500).render("admin/create-shipment", {
