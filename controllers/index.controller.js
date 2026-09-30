@@ -63,7 +63,7 @@ const getAboutPage = (req, res) => {
 };
 
 const getContactPage = (req, res) => {
-  res.render("about", {
+  res.render("contact", {
     title: "Contact Us - DashWayDelivery",
   });
 };

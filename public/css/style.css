@@ -9134,3 +9134,12 @@ body.dark-mode .dashway-loader-content p {
     gap: 10px;
   }
 }
+/* ==========================================================================
+   Floating Widgets & Layering (Tawk.to & Google Translate)
+   ========================================================================== */
+
+/* Ensure Tawk.to chat widget stays above all bottom elements */
+iframe[title*="tawk-chat"],
+iframe[name*="tawk"] {
+  z-index: 999999 !important;
+}
