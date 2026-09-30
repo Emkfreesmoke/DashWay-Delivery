@@ -665,7 +665,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const progressCard = document.querySelector(".track-progress-card");
   const progressBar = document.querySelector("#deliveryProgressFill");
   const progressText = document.querySelector("#trackingProgressPercent");
-  const deliveryTruck = document.querySelector("#trackingProgressTruck");
+  window.deliveryTruck = document.querySelector("#trackingProgressTruck");
 
   if (progressCard) {
     const currentStatus = (progressCard.dataset.currentStatus || "")
@@ -715,9 +715,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Move delivery truck along the track
-    if (deliveryTruck) {
+    if (window.deliveryTruck) {
       setTimeout(() => {
-        deliveryTruck.style.left = `${progress}%`;
+        window.deliveryTruck.style.left = `${progress}%`;
       }, 300);
     }
 
@@ -834,12 +834,12 @@ function animateTrackingNumber(element, start, end, duration) {
 
   requestAnimationFrame(update);
 }
-if (deliveryTruck) {
-  setTimeout(() => {
-    // Keep position clamped safely between 0% and 100%
-    const clampedProgress = Math.max(0, Math.min(progress, 100));
+// if (deliveryTruck) {
+//   setTimeout(() => {
+//     // Keep position clamped safely between 0% and 100%
+//     const clampedProgress = Math.max(0, Math.min(progress, 100));
 
-    deliveryTruck.style.left = `${clampedProgress}%`;
-    deliveryTruck.style.setProperty("--progress", `${clampedProgress}%`);
-  }, 300);
-}
+//     deliveryTruck.style.left = `${clampedProgress}%`;
+//     deliveryTruck.style.setProperty("--progress", `${clampedProgress}%`);
+//   }, 300);
+// }
