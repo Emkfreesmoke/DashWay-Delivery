@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Shipment = require("../models/Shipment");
+const nodemailer = require("nodemailer");
 
 const indexController = require("../controllers/index.controller");
 
@@ -107,10 +108,51 @@ const trackShipment = async (req, res) => {
   }
 };
 
+const transporter = nodemailer.createTransport({
+  host: "smtppro.zoho.com", // or smtp.zoho.com
+  port: 465,
+  secure: true, // use SSL
+  auth: {
+    user: process.env.EMAIL_USER, // e.g. contact@dashway-delivery.com
+    pass: process.env.EMAIL_PASS, // your Zoho app password
+  },
+});
+const handleContactForm = async (req, res) => {
+  const { name, email, subject, message } = req.body;
+
+  const mailOptions = {
+    from: "DashWay Contact Form <contact@dashway-delivery.com>",
+    to: "contact@dashway-delivery.com",
+    replyTo: email,
+    subject: `New Contact Inquiry: ${subject || "General Message"}`,
+    html: `
+      <h3>New Message from ${name}</h3>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message}</p>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    // Render the contact page with a success message
+    res.render("contact", {
+      success: "Your message has been sent successfully!",
+    });
+  } catch (error) {
+    console.error("Email sending error:", error);
+    res.render("contact", {
+      error: "Failed to send message. Please try again.",
+    });
+  }
+};
+
 module.exports = {
   getHomePage,
   getAboutPage,
   getContactPage,
   getServicePage,
   trackShipment,
+  handleContactForm,
 };
