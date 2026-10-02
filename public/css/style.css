@@ -9143,3 +9143,29 @@ iframe[title*="tawk-chat"],
 iframe[name*="tawk"] {
   z-index: 999999 !important;
 }
+/* Floating WhatsApp Button (Positioned above EN Translator on the Left) */
+.whatsapp-float {
+  position: fixed;
+  bottom: 80px; /* Sits directly above the EN translator box */
+  left: 20px; /* Aligned to the left side */
+  background-color: #25d366;
+  color: #ffffff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 28px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 9999; /* Ensures it stays visible above other UI components */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+  background-color: #1da851;
+  color: #ffffff;
+  transform: scale(1.08);
+}
