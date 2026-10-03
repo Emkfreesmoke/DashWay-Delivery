@@ -9157,7 +9157,7 @@ iframe[name*="tawk"] {
   font-size: 28px;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
   z-index: 9999; /* Ensures it stays visible above other UI components */
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   text-decoration: none;
